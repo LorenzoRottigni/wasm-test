@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>hello-wasm example</title>
+  </head>
+  <body>
+    <script type="module">
+      import init, { add } from "./rust/pkg/rust.js";
+      init().then(() => {
+        const result = add(4, 5)
+        console.log('rust add: ', result)
+      });
+    </script>
+    <script type="module">
+      WebAssembly.instantiateStreaming(fetch("/wat/pkg/module.wasm")).then(
+        (obj) => {
+          const result = obj.instance.exports.add(5, 5)
+          console.log('wat add: ', result)
+        },
+      );
+    </script>
+  </body>
+</html>
